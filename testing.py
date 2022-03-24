@@ -6,11 +6,19 @@ headers = {"Authorization": json.dumps({"token": "sup3rs3cr3t"})}
 headers2 = {"Authorization": json.dumps({"username": "username2", "password": "password"})}
 
 
+@pytest.fixture()
+def demo_message():
+    print("\nStarting to launch the test case")
+    print("----------------------------------")
+    yield
+    print("Ending the the test case")
+
+
 # execute with pytest testing.py -s --html=report.html
-def test_get_request():
+def test_get_request(demo_message):
     bot_id = 1
     r = requests.get(f"http://127.0.0.1:5000/?bot_id={bot_id}", headers=headers)
-
+    print(r.text)
     assert r.status_code == 200
 
 
