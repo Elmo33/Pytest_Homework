@@ -13,7 +13,7 @@ class Main:
         self.__password = "password"
         self.__token = "sup3rs3cr3t"
 
-    def check_auth(self):
+    def check_auth(self):  # checking if there is a token or username/password in the header
         auth = json.loads(request.headers["Authorization"])
         if "token" in auth.keys() and auth["token"] != self.__token:
             return "wrong token code"
@@ -71,11 +71,9 @@ class Main:
                 return 'Content-Type not supported!'
 
 
+@app.route('/', methods=['POST', 'GET', 'DELETE', 'PUT', 'PATCH'])
+def home():
+    return Main().respond()
+
 if __name__ == '__main__':
-    @app.route('/', methods=['POST', 'GET', 'DELETE', 'PUT', 'PATCH'])
-    def home():
-        home_page = Main()
-        return home_page.respond()
-
-
     app.run(debug=True)
