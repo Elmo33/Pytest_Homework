@@ -16,32 +16,35 @@ def demo_message():
     print("Ending the test case")
 
 
-def test_get_request(demo_message):
-    bot_id = 1
-    r = requests.get(f"http://127.0.0.1:5000/?bot_id={bot_id}", headers=headers)
-    assert r.status_code == 200
+bot_id = 0
 
 
 def test_post_request():
     j = {"url": "http://example.com"}
     r = requests.post("http://127.0.0.1:5000/", json=j, headers=headers)
+    global bot_id
+    bot_id = int(r.json()["id"])
     assert r.status_code == 200
 
 
-def test_put_request():
-    j2 = {"intents": ["play-sound", "tell-joke"]}
-    r = requests.put("http://127.0.0.1:5000/?bot_id=1", json=j2, headers=headers)
+def test_get_request(demo_message):
+    r = requests.get(f"http://127.0.0.1:5000/?bot_id={bot_id}", headers=headers)
     assert r.status_code == 200
 
 
 def test_patch_request():
     j3 = {"url": "http://example.com4362375"}
-    r = requests.patch("http://127.0.0.1:5000/?bot_id=2", json=j3, headers=headers)
+    r = requests.patch(f"http://127.0.0.1:5000/?bot_id={bot_id}", json=j3, headers=headers)
+    assert r.status_code == 200
+
+
+def test_put_request():
+    j2 = {"intents": ["play-sound", "tell-joke"]}
+    r = requests.put(f"http://127.0.0.1:5000/?bot_id={bot_id}", json=j2, headers=headers)
     assert r.status_code == 200
 
 
 def test_delete_request():
-    bot_id = 3
     r = requests.delete(f"http://127.0.0.1:5000/?bot_id={bot_id}", headers=headers)
     assert r.status_code == 200
 
