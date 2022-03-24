@@ -2,6 +2,8 @@ import json
 import requests
 import pytest
 
+# execute with pytest -s --html=report.html
+
 headers = {"Authorization": json.dumps({"token": "sup3rs3cr3t"})}
 headers2 = {"Authorization": json.dumps({"username": "username2", "password": "password"})}
 
@@ -11,14 +13,12 @@ def demo_message():
     print("\nStarting to launch the test case")
     print("----------------------------------")
     yield
-    print("Ending the the test case")
+    print("Ending the test case")
 
 
-# execute with pytest testing.py -s --html=report.html
 def test_get_request(demo_message):
     bot_id = 1
     r = requests.get(f"http://127.0.0.1:5000/?bot_id={bot_id}", headers=headers)
-    print(r.text)
     assert r.status_code == 200
 
 
@@ -41,7 +41,7 @@ def test_patch_request():
 
 
 def test_delete_request():
-    bot_id = 2
+    bot_id = 3
     r = requests.delete(f"http://127.0.0.1:5000/?bot_id={bot_id}", headers=headers)
     assert r.status_code == 200
 
@@ -49,4 +49,3 @@ def test_delete_request():
 @pytest.mark.skipif(2 == 2, reason="just for demo")
 def test_just_skip():
     assert 2 == 1
-# a = Flow("a")
