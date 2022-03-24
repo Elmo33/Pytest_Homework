@@ -1,6 +1,6 @@
 import json
 import requests
-from main import Main
+import pytest
 
 headers = {"Authorization": json.dumps({"token": "sup3rs3cr3t"})}
 headers2 = {"Authorization": json.dumps({"username": "username2", "password": "password"})}
@@ -11,7 +11,6 @@ def test_get_request():
     bot_id = 1
     r = requests.get(f"http://127.0.0.1:5000/?bot_id={bot_id}", headers=headers)
 
-    assert json.dumps(r.json()) == json.dumps(Main.bots[bot_id])
     assert r.status_code == 200
 
 
@@ -37,6 +36,10 @@ def test_patch_request():
 def test_delete_request():
     bot_id = 2
     r = requests.delete(f"http://127.0.0.1:5000/?bot_id={bot_id}", headers=headers)
-    print(Main.bots)
     assert r.status_code == 200
+
+
+@pytest.mark.skipif(2 == 2, reason="just for demo")
+def test_just_skip():
+    assert 2 == 1
 # a = Flow("a")
