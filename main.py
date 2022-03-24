@@ -35,7 +35,6 @@ class Main:
                 json_load = request.json
                 new_id = max(self.bots.keys()) + 1
                 self.bots[new_id] = {"id": new_id, "name": "test", "intents": [], "url": json_load["url"]}
-                print(self.bots)
                 return self.bots[new_id]
             else:
                 return 'Content-Type not supported!'

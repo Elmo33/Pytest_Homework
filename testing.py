@@ -31,7 +31,6 @@ def test_post_request():
 def test_put_request():
     j2 = {"intents": ["play-sound", "tell-joke"]}
     r = requests.put("http://127.0.0.1:5000/?bot_id=1", json=j2, headers=headers)
-
     assert r.status_code == 200
 
 
