@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+
+{% block title %} Main {% endblock %}
+
+{% block content %}
+    {#    <h3>Bot add</h3>#}
+        <h2 style="text-align: center">{{ text }}</h2>
+
+    <ul class="nav justify-content-center">
+        <form method="post">
+            <div class="form-group">
+                <label for="bot_url">New Bot</label>
+                <input type="text" name="bot_url" class="form-control" id="bot_url"
+                       aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">Write a new url for the bot.</small>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%">Submit</button>
+        </form>
+    </ul>
+
+
+{% endblock %}
