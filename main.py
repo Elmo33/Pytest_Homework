@@ -25,6 +25,9 @@ class Main:
     def respond(self):
         content_type = request.headers.get('Content-Type')
 
+        if "Authorization" not in request.headers:
+            return "No authorization credentials provided"
+
         not_validated = self.check_auth()
         if not_validated:
             return not_validated
