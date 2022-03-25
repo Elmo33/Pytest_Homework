@@ -19,16 +19,18 @@ def test_post_invalid_data():
 
 
 def test_post_no_data():
-    r = requests.post("http://127.0.0.1:5000/", headers=headers)
-    assert r.text == "Content-Type not supported!"  # or we could add another error for this one like "no payload provided"
-    assert r.status_code == 200
+    result = first.post_request()
+    assert result.text == "Content-Type not supported!"  # or we could add another error for this one like "no payload provided"
+    assert result.status_code == 200
 
 
 def test_post_no_auth():
-    j = {"url": "http://example.com"}
-    r = requests.post("http://127.0.0.1:5000/", json=j)
-    assert r.text == "No authorization credentials provided"
-    assert r.status_code == 200
+    first.headers = None
+    payload = {"url": "http://example.com"}
+    result = first.post_request(payload)
+    first.headers = headers  # setting headers back to their value
+    assert result.text == "No authorization credentials provided"
+    assert result.status_code == 200
 
 
 def test_post_wrong_token():

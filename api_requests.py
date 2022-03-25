@@ -2,17 +2,20 @@ import requests
 
 
 class API:
-    def __init__(self, url, header=0):
+    def __init__(self, url, header):
         self.headers = header
         self.url = url
         self.bot_id = 1
 
-    def post_request(self, payload):
-        if payload.isalpha():
+    def post_request(self, payload=None):
+        if payload is None:
+            r = requests.post(self.url, headers=self.headers)
+        elif type(payload) == str:
             r = requests.post(self.url, data=payload, headers=self.headers)
         else:
             r = requests.post(self.url, json=payload, headers=self.headers)
-            self.bot_id = int(r.json()["id"])
+            if 'application/json' in r.headers.get('Content-Type'):
+                self.bot_id = int(r.json()["id"])
         return r
 
     def get_request(self, bot_id):
