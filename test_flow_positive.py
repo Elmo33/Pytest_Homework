@@ -57,3 +57,7 @@ def test_delete_request():
 @pytest.mark.skipif(2 == 2, reason="just for demo")
 def test_just_skip():
     assert 2 == 1
+
+@pytest.mark.xfail
+def test_just_fail():
+    test_just_skip()
