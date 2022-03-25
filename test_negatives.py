@@ -1,5 +1,6 @@
 import json
 import requests
+from api_requests import API
 import pytest
 
 # execute with pytest -s --html=report.html

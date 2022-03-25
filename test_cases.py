@@ -21,30 +21,30 @@ first = API(headers, "http://127.0.0.1:5000/")
 def test_post_request():
     payload = {"url": "http://example.com"}
     result = first.post_request(payload)
-    assert result["code"] == 200
-    assert result["json"] == {'id': first.bot_id, 'intents': [], 'name': 'test', 'url': 'http://example.com'}
+    assert result.status_code == 200
+    assert result.json() == {'id': first.bot_id, 'intents': [], 'name': 'test', 'url': 'http://example.com'}
 
 
 def test_get_request(demo_message):
     result = first.get_request(first.bot_id)
-    assert result["code"] == 200
+    assert result.status_code == 200
 
 
 def test_patch_request():
     payload = {"url": "http://example.com4362375"}
     result = first.patch_request(first.bot_id, payload)
-    assert result["code"] == 200
+    assert result.status_code == 200
 
 
 def test_put_request():
     payload = {"intents": ["play-sound", "tell-joke"]}
     result = first.put_request(first.bot_id, payload)
-    assert result["code"] == 200
+    assert result.status_code == 200
 
 
 def test_delete_request():
     result = first.delete_request(first.bot_id)
-    assert result["code"] == 200
+    assert result.status_code == 200
 
 
 # ------------------------------------------------------------ SECOND FLOW ------------------------------------------------------
@@ -55,30 +55,30 @@ second = API(headers2, "http://127.0.0.1:5000/")
 def test_post_request2():
     payload = {"url": "http://example.com"}
     result = second.post_request(payload)
-    assert result["code"] == 200
-    assert result["json"] == {'id': second.bot_id, 'intents': [], 'name': 'test', 'url': 'http://example.com'}
+    assert result.status_code == 200
+    assert result.json() == {'id': second.bot_id, 'intents': [], 'name': 'test', 'url': 'http://example.com'}
 
 
 def test_get_request2(demo_message):
     result = second.get_request(second.bot_id)
-    assert result["code"] == 200
+    assert result.status_code == 200
 
 
 def test_patch_request2():
     payload = {"url": "http://example.com4362375"}
     result = second.patch_request(second.bot_id, payload)
-    assert result["code"] == 200
+    assert result.status_code == 200
 
 
 def test_put_request2():
     payload = {"intents": ["play-sound", "tell-joke"]}
     result = second.put_request(second.bot_id, payload)
-    assert result["code"] == 200
+    assert result.status_code == 200
 
 
 def test_delete_request2():
     result = second.delete_request(second.bot_id)
-    assert result["code"] == 200
+    assert result.status_code == 200
 
 
 @pytest.mark.skipif(2 == 2, reason="just for demo")
