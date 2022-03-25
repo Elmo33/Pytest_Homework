@@ -17,7 +17,7 @@ test_negative_cases.py - negative test cases
 report.html - generated pytest report
 
 
-### run by using 
+### first run the server and then test cases by using 
 ```
 pytest -s --html=report.html
 ```
