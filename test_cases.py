@@ -15,7 +15,7 @@ def demo_message():
 
 # ------------------------------------------------------------ FIRST FLOW ------------------------------------------------------
 headers = {"Authorization": json.dumps({"token": "sup3rs3cr3t"})}
-first = API(headers, "http://127.0.0.1:5000/")
+first = API("http://127.0.0.1:5000/", headers)
 
 
 def test_post_request():
@@ -49,7 +49,7 @@ def test_delete_request():
 
 # ------------------------------------------------------------ SECOND FLOW ------------------------------------------------------
 headers2 = {"Authorization": json.dumps({"username": "username", "password": "password"})}
-second = API(headers2, "http://127.0.0.1:5000/")
+second = API("http://127.0.0.1:5000/", headers2)
 
 
 def test_post_request2():

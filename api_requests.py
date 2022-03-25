@@ -8,8 +8,11 @@ class API:
         self.bot_id = 1
 
     def post_request(self, payload):
-        r = requests.post(self.url, json=payload, headers=self.headers)
-        self.bot_id = int(r.json()["id"])
+        if payload.isalpha():
+            r = requests.post(self.url, data=payload, headers=self.headers)
+        else:
+            r = requests.post(self.url, json=payload, headers=self.headers)
+            self.bot_id = int(r.json()["id"])
         return r
 
     def get_request(self, bot_id):
