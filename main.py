@@ -45,7 +45,10 @@ class Main:
         # ---------------------------- GET ----------------------------------#
         if request.method == 'GET':
             args = request.args
-            return self.bots[int(args.get("bot_id"))]
+            if "bot_id" not in list(args.keys()):
+                return self.bots
+            else:
+                return self.bots[int(args.get("bot_id"))]
 
         # ---------------------------- DELETE -------------------------------#
         if request.method == 'DELETE':

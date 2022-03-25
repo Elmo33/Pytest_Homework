@@ -32,6 +32,11 @@ def test_get_request(demo_message):
     assert r.status_code == 200
 
 
+def test_get_request_no_specify():
+    r = requests.get(f"http://127.0.0.1:5000/", headers=headers)
+    assert r.status_code == 200
+
+
 def test_patch_request():
     j3 = {"url": "http://example.com4362375"}
     r = requests.patch(f"http://127.0.0.1:5000/?bot_id={bot_id}", json=j3, headers=headers)
