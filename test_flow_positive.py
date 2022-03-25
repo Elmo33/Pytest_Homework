@@ -19,11 +19,33 @@ def demo_message():
 bot_id = 0
 
 
+class API:
+    def __init__(self, header, url):
+        self.headers = header
+        self.url = url
+        self.bot_id = 1
+
+    def post_request(self, payload, expected_code, expected_result=0):
+        r = requests.post(self.url, json=payload, headers=self.headers)
+        self.bot_id = int(r.json()["id"])
+        print(r.json())
+
+ja = {"url": "http://example.com"}
+first = API(headers, "http://127.0.0.1:5000/")
+first.post_request(ja, 200)
+
+
+
+
 def test_post_request():
     j = {"url": "http://example.com"}
     r = requests.post("http://127.0.0.1:5000/", json=j, headers=headers)
     global bot_id
     bot_id = int(r.json()["id"])
+    print(r.json())
+
+    expected = {'id': bot_id, 'intents': [], 'name': 'test', 'url': 'http://example.com'}  # in case we already know how it should look
+    assert expected == r.json()
     assert r.status_code == 200
 
 
@@ -57,6 +79,7 @@ def test_delete_request():
 @pytest.mark.skipif(2 == 2, reason="just for demo")
 def test_just_skip():
     assert 2 == 1
+
 
 @pytest.mark.xfail
 def test_just_fail():
