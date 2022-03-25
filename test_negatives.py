@@ -28,22 +28,27 @@ def test_post_no_auth():
     first.headers = None
     payload = {"url": "http://example.com"}
     result = first.post_request(payload)
-    first.headers = headers  # setting headers back to their value
     assert result.text == "No authorization credentials provided"
     assert result.status_code == 200
 
+    first.headers = headers  # setting headers back to their value
+
 
 def test_post_wrong_token():
-    wrong = {"Authorization": json.dumps({"token": "wrong"})}
-    j = {"url": "http://example.com"}
-    r = requests.post("http://127.0.0.1:5000/", json=j, headers=wrong)
-    assert r.text == "wrong token code"
-    assert r.status_code == 200
+    first.headers = {"Authorization": json.dumps({"token": "wrong"})}
+    payload = {"url": "http://example.com"}
+    result = first.post_request(payload)
+    assert result.text == "wrong token code"
+    assert result.status_code == 200
+
+    first.headers = headers  # setting headers back to their value
 
 
 def test_post_wrong_credentials():
-    wrong = {"Authorization": json.dumps({"username": "username2", "password": "passw2ord"})}
-    j = {"url": "http://example.com"}
-    r = requests.post("http://127.0.0.1:5000/", json=j, headers=wrong)
-    assert r.text == "wrong credentials"
-    assert r.status_code == 200
+    first.headers = {"Authorization": json.dumps({"username": "username2", "password": "passw2ord"})}
+    payload = {"url": "http://example.com"}
+    result = first.post_request(payload)
+    assert result.text == "wrong credentials"
+    assert result.status_code == 200
+
+    first.headers = headers  # setting headers back to their value
