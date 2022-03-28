@@ -20,19 +20,18 @@ payload2 = {"url": "http://example.com4362375"}
 payload3 = {"intents": ["play-sound", "tell-joke"]}
 
 
-# i get how they work and why they are nice to have, but for my case I just cant think off a good use for fixtures.
-@pytest.fixture()
-def demo_message():
-    print("Creating a new bot for this test case")
-    first.post_request(payload1)
-    print(f"New bot id is {first.bot_id}")
-    yield
-    print("Ending the test case")
-
-
-def test_get_request(demo_message):
-    result = first.get_request({"bot_id": first.bot_id})
-    assert result["status_code"] == 200
+# @pytest.fixture()
+# def demo_message():
+#     print("Creating a new bot for this test case")
+#     first.post_request(payload1)
+#     print(f"New bot id is {first.bot_id}")
+#     yield
+#     print("Ending the test case")
+#
+#
+# def test_get_request(demo_message):
+#     result = first.get_request({"bot_id": first.bot_id})
+#     assert result["status_code"] == 200
 
 
 # THIS FUNCTION IS SO COOL, feel like a primate now for writing test cases separately
