@@ -27,7 +27,7 @@ def test_post_request():
 
 
 def test_get_request(demo_message):
-    result = first.get_request({"bot_id":first.bot_id})
+    result = first.get_request({"bot_id": first.bot_id})
 
     assert result.status_code == 200
 
@@ -41,7 +41,7 @@ def test_patch_request():
 
 def test_put_request():
     payload = {"intents": ["play-sound", "tell-joke"]}
-    result = first.put_request(3, payload)
+    result = first.put_request(first.bot_id, payload)
 
     assert result.status_code == 200
 
@@ -64,7 +64,7 @@ def test_post_request2():
 
 
 def test_get_request2(demo_message):
-    result = second.get_request(second.bot_id)
+    result = second.get_request({"bot_id": first.bot_id})
     assert result.status_code == 200
 
 

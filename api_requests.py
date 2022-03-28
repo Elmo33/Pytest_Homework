@@ -14,7 +14,7 @@ class API:
             r = requests.post(self.url, data=payload, headers=self.headers)
         else:
             r = requests.post(self.url, json=payload, headers=self.headers)
-            if 'application/json' in r.headers.get('Content-Type'):
+            if 'error' not in r.json():
                 self.bot_id = int(r.json()["id"])
         return r
 
