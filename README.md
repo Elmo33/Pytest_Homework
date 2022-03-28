@@ -22,3 +22,4 @@ report.html - generated pytest report
 pytest -s --html=report.html
 ```
 
+Required libraries: json, pytest, pytest-html, flask
