@@ -28,7 +28,6 @@ class Main:
 
     @staticmethod
     def post_request():
-        print("AAAAAAAAAAA")
         json_load = request.json
         new_bot = Bot(json_load["url"])
         new_bot.add_to_db()
@@ -90,13 +89,10 @@ class Main:
             return {"error": "No authorization credentials provided"}
 
         not_validated = self.check_auth()
-        print(not_validated)
         if not_validated:
             return not_validated
 
         load_type = self.check_type()
-        print(load_type)
-        print(self.content_type)
         if request.method in ["POST", "PUT", "PATCH"] and load_type is not None:
             return load_type
 
