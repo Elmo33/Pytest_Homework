@@ -2,15 +2,7 @@ import json
 import pytest
 from api_requests import API
 
-
 # execute with pytest -s --html=report.html
-
-@pytest.fixture()
-def demo_message():
-    print("\nStarting to launch the test case")
-    print("----------------------------------")
-    yield
-    print("Ending the test case")
 
 
 headers = {"Authorization": json.dumps({"token": "sup3rs3cr3t"})}
@@ -23,18 +15,27 @@ second = API("http://127.0.0.1:5000/", headers2)
 third = API("http://127.0.0.1:5000/", headers3)
 fourth = API("http://127.0.0.1:5000/", headers4)
 
-
 payload1 = {"url": "http://example.com"}
 payload2 = {"url": "http://example.com4362375"}
 payload3 = {"intents": ["play-sound", "tell-joke"]}
 
 
+# i get how they work and why they are nice to have, but for my case I just cant think off a good use for fixtures.
+@pytest.fixture()
+def demo_message():
+    print("Creating a new bot for this test case")
+    first.post_request(payload1)
+    print(f"New bot id is {first.bot_id}")
+    yield
+    print("Ending the test case")
+
+
 def test_get_request(demo_message):
     result = first.get_request({"bot_id": first.bot_id})
-    assert result.status_code == 200
+    assert result["status_code"] == 200
 
 
-# THIS FUNCTION IS SO COOOOOOOOOOOOOOOOOOOOOOL, feel like a primate now for writing test cases separately
+# THIS FUNCTION IS SO COOL, feel like a primate now for writing test cases separately
 @pytest.mark.parametrize(
     ('input_x', 'code', 'expected'),
     (
@@ -51,14 +52,10 @@ def test_get_request(demo_message):
             pytest.param(second.put_request(first.bot_id, payload3), 200, None, id="Second put request"),
             pytest.param(second.delete_request(first.bot_id), 200, None, id="Second delete request"),
 
-            pytest.param(first.post_request("a"), 200, {'error': 'Content-Type not supported!'},
-                         id="Post with invalid data"),
-            pytest.param(first.post_request(), 200, {'error': 'Content-Type not supported!'},
-                         id="Post with no data"),
-            pytest.param(third.post_request(payload1), 200, {"error": "wrong token code"},
-                         id="Post with wrong secret"),
-            pytest.param(fourth.post_request(payload1), 200, {"error": "wrong credentials"},
-                         id="Post with wrong credentials"),
+            pytest.param(first.post_request("a"), 200, {'error': 'Content-Type not supported!'}, id="Post with invalid data"),
+            pytest.param(first.post_request(), 200, {'error': 'Content-Type not supported!'}, id="Post with no data"),
+            pytest.param(third.post_request(payload1), 200, {"error": "wrong token code"}, id="Post with wrong secret"),
+            pytest.param(fourth.post_request(payload1), 200, {"error": "wrong credentials"}, id="Post with wrong credentials"),
     )
 )
 def test_requests(input_x: dict, code, expected):
