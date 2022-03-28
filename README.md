@@ -8,11 +8,14 @@ Also, as I haven't really worked much with pytest nor touched a good code writte
 
 api_requests.py - class for requests
 
+bot.py - class for bots
+
+interact.py - "interface" for interacting with intents. now only manually testable.
+
 main.py - for launching the server via flask
 
-test_positive_cases.py - positive test cases 
+test_cases.py - positive test cases 
 
-test_negative_cases.py - negative test cases 
 
 report.html - generated pytest report
 
