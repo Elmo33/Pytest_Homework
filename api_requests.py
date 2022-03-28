@@ -18,8 +18,9 @@ class API:
                 self.bot_id = int(r.json()["id"])
         return r
 
-    def get_request(self, bot_id):
-        r = requests.get(f"{self.url}?bot_id={bot_id}", headers=self.headers)
+    def get_request(self, reqs):
+        attributes = "".join([f"{i}={reqs[i]}&" for i in reqs.keys()])[:-1]
+        r = requests.get(f"{self.url}?{attributes}", headers=self.headers)
         return r
 
     def patch_request(self, bot_id, payload):

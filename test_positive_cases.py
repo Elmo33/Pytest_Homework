@@ -21,24 +21,28 @@ first = API("http://127.0.0.1:5000/", headers)
 def test_post_request():
     payload = {"url": "http://example.com"}
     result = first.post_request(payload)
+
     assert result.status_code == 200
     assert result.json() == {'id': first.bot_id, 'intents': [], 'name': 'test', 'url': 'http://example.com'}
 
 
 def test_get_request(demo_message):
-    result = first.get_request(first.bot_id)
+    result = first.get_request({"bot_id":first.bot_id})
+
     assert result.status_code == 200
 
 
 def test_patch_request():
     payload = {"url": "http://example.com4362375"}
     result = first.patch_request(first.bot_id, payload)
+
     assert result.status_code == 200
 
 
 def test_put_request():
     payload = {"intents": ["play-sound", "tell-joke"]}
-    result = first.put_request(first.bot_id, payload)
+    result = first.put_request(3, payload)
+
     assert result.status_code == 200
 
 

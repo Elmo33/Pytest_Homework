@@ -1,12 +1,11 @@
 from flask import Flask, request
 import json
+from bot import Bot
 
 app = Flask(__name__)
 
 
 class Main:
-    bots = {1: {"id": 1, "intents": ["play_sound", "tell_joke", "disconnect"], "name": "first", "url": "example.com"},
-            2: {"id": 2, "intents": ["play_sound", "tell_joke"], "name": "second", "url": "example2.com"}}
 
     def __init__(self):
         self.__username = "username"
@@ -16,9 +15,9 @@ class Main:
     def check_auth(self):  # checking if there is a token or username/password in the header
         auth = json.loads(request.headers["Authorization"])
         if "token" in auth.keys() and auth["token"] != self.__token:
-            return "wrong token code"
+            return {"error": "wrong token code"}
         elif "username" in auth.keys() and (auth["username"] != self.__username or auth["password"] != self.__password):
-            return "wrong credentials"
+            return {"error": "wrong credentials"}
         else:
             return 0
 
@@ -26,7 +25,7 @@ class Main:
         content_type = request.headers.get('Content-Type')
 
         if "Authorization" not in request.headers:
-            return "No authorization credentials provided"
+            return {"error": "No authorization credentials provided"}
 
         not_validated = self.check_auth()
         if not_validated:
@@ -36,24 +35,45 @@ class Main:
         if request.method == 'POST':
             if content_type == 'application/json':
                 json_load = request.json
-                new_id = max(self.bots.keys()) + 1
-                self.bots[new_id] = {"id": new_id, "name": "test", "intents": [], "url": json_load["url"]}
-                return self.bots[new_id]
+                new_bot = Bot(json_load["url"])
+                new_bot.add_to_db()
+                return Bot.bots[new_bot.id]
             else:
-                return 'Content-Type not supported!'
+                return {"error": 'Content-Type not supported!'}
 
         # ---------------------------- GET ----------------------------------#
         if request.method == 'GET':
             args = request.args
-            if "bot_id" not in list(args.keys()):
-                return self.bots
+            print(args)
+            if "intent" not in args:
+                if "bot_id" not in args:
+                    return Bot.bots
+                elif int(args.get("bot_id")) not in Bot.bots.keys():
+                    return {"error": "No such bot found"}
+                else:
+                    return Bot.bots[int(args.get("bot_id"))]
             else:
-                return self.bots[int(args.get("bot_id"))]
+                if request.args["intent"] == "0":
+                    return {"text": "What do you want bot to do? \n1)Tell a joke\n2)Play_sound\n3)DisconnecT", "next": 5}
+                elif request.args["intent"] == "1":
+                    if "step" in request.args:
+                        return Bot.tell_a_joke({"id": int(request.args["step"]), "answer": request.args["answer"]})
+                    else:
+                        return Bot.tell_a_joke({"id": 0})
+                elif request.args["intent"] == "2":
+                    if "step" in request.args:
+                        return Bot.play_sound({"id": int(request.args["step"]), "answer": request.args["answer"]})
+                    else:
+                        return Bot.play_sound({"id": 0})
+                elif request.args["intent"] == "3":
+                    return Bot.disconnect()
+                else:
+                    return {"text": "wrong number dude", "next": 555}
 
         # ---------------------------- DELETE -------------------------------#
         if request.method == 'DELETE':
             args = request.args
-            del self.bots[int(args.get("bot_id"))]
+            del Bot.bots[int(args.get("bot_id"))]
             return "bot successfully deleted"
 
         # ---------------------------- PUT ----------------------------------#
@@ -61,25 +81,26 @@ class Main:
             if content_type == 'application/json':
                 json_load = request.json
                 bot_id = int(request.args.get("bot_id"))
-                self.bots[bot_id] = {"id": bot_id, "intents": json_load["intents"], "name": "test"}
-                return self.bots[bot_id]
+                Bot.bots[bot_id] = {"id": bot_id, "intents": json_load["intents"], "name": "test"}
+                return Bot.bots[bot_id]
             else:
-                return 'Content-Type not supported!'
+                return {"error": 'Content-Type not supported!'}
 
         # ---------------------------- PATCH -------------------------------#
         if request.method == 'PATCH':
             if content_type == 'application/json':
                 json_load = request.json
                 bot_id = int(request.args.get("bot_id"))
-                self.bots[bot_id]["url"] = json_load["url"]
-                return self.bots[bot_id]
+                Bot.bots[bot_id]["url"] = json_load["url"]
+                return Bot.bots[bot_id]
             else:
-                return 'Content-Type not supported!'
+                return {"error": 'Content-Type not supported!'}
 
 
 @app.route('/', methods=['POST', 'GET', 'DELETE', 'PUT', 'PATCH'])
 def home():
     return Main().respond()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
