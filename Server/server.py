@@ -5,7 +5,7 @@ from bot import Bot
 app = Flask(__name__)
 
 
-class Main:
+class Server:
     def __init__(self):
         self.__username = "username"
         self.__password = "password"
@@ -113,7 +113,7 @@ class Main:
 
 @app.route('/', methods=['POST', 'GET', 'DELETE', 'PUT', 'PATCH'])
 def home():
-    return Main().respond()
+    return Server().respond()
 
 
 if __name__ == '__main__':
