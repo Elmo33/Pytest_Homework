@@ -18,7 +18,7 @@ report.html - generated pytest report
 test_intents.py - fully automated testing of tell_joke
 ### first run the server and then test cases by using 
 ```
-pytest -s --html=report.html
+pytest -sv --html=report.html
 ```
 
 Required libraries: json, pytest, pytest-html, flask, requests
