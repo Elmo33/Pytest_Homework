@@ -17,6 +17,9 @@ test_cases.py - all test cases
 
 test_intents.py - fully automated testing of tell_joke
 
+### assets
+style.css - for styling the html report
+
 report.html - generated pytest report
 ### first run the server and then test cases by using 
 ```
