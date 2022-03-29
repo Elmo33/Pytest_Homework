@@ -7,11 +7,8 @@ first = API("http://127.0.0.1:5000/", headers)
 
 
 def get_request(intent, answer, step_id):
-    print({"intent": intent, "step": step_id, "answer": answer})
     result = first.get_request({"intent": intent, "step": step_id, "answer": answer})
-
-    print(result["json"])
-    print()
+    print(result["json"]["next"])
     return int(result["json"]["next"])
 
 
