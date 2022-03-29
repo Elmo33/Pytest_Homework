@@ -13,8 +13,8 @@ class Bot:
         Bot.bots[self.id] = {"id": self.id, "name": "test", "intents": [], "url": self.url}
 
     @staticmethod
-    def menu(choice):
-        return {"What do you want bot to do? \n1)Tell a joke\n2)Play_sound\n3)DisconnecT"}
+    def menu():
+        return {"text": "What do you want bot to do? \n1)Tell a joke\n2)Play_sound\n3)DisconnecT", "next": 5}
 
     @staticmethod
     def tell_a_joke(step):
@@ -28,7 +28,6 @@ class Bot:
             else:
                 return {"text": "Knock, Knock", "next": 2}
         if step["id"] == 2:
-            print(step["answer"])
             if step["answer"].lower() != "who's there" and step["answer"].lower() != "who is it":
                 return {"text": "Common you know what to answer, KNOCK, KNOCK!", "next": 2}
             else:

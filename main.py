@@ -36,7 +36,6 @@ class Main:
     @staticmethod
     def get_request():
         args = request.args
-        print(args)
         if "intent" not in args:
             if "bot_id" not in args:
                 return Bot.bots
@@ -46,7 +45,7 @@ class Main:
                 return Bot.bots[int(args.get("bot_id"))]
         else:
             if request.args["intent"] == "0":
-                return {"text": "What do you want bot to do? \n1)Tell a joke\n2)Play_sound\n3)DisconnecT", "next": 5}
+                return Bot.menu()
             elif request.args["intent"] == "1":
                 if "step" in request.args:
                     return Bot.tell_a_joke({"id": int(request.args["step"]), "answer": request.args["answer"]})
