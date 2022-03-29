@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 
 class Main:
-
     def __init__(self):
         self.__username = "username"
         self.__password = "password"
@@ -25,6 +24,36 @@ class Main:
     def check_type(self):
         if self.content_type != 'application/json':
             return {"error": 'Content-Type not supported!'}
+
+    def respond(self):
+        self.content_type = request.headers.get('Content-Type')
+
+        if "Authorization" not in request.headers:
+            return {"error": "No authorization credentials provided"}
+
+        not_validated = self.check_auth()
+        if not_validated:
+            return not_validated
+
+        load_type = self.check_type()
+        if request.method in ["POST", "PUT", "PATCH"] and load_type is not None:
+            return load_type
+
+        # ---------------------------- POST ---------------------------------#
+        if request.method == 'POST':
+            return self.post_request()
+        # ---------------------------- GET ----------------------------------#
+        elif request.method == 'GET':
+            return self.get_request()
+        # ---------------------------- DELETE -------------------------------#
+        elif request.method == 'DELETE':
+            return self.delete_request()
+        # ---------------------------- PUT ----------------------------------#
+        elif request.method == 'PUT':
+            return self.put_request()
+        # ---------------------------- PATCH -------------------------------#
+        elif request.method == 'PATCH':
+            return self.patch_request()
 
     @staticmethod
     def post_request():
@@ -80,36 +109,6 @@ class Main:
         bot_id = int(request.args.get("bot_id"))
         Bot.bots[bot_id]["url"] = json_load["url"]
         return Bot.bots[bot_id]
-
-    def respond(self):
-        self.content_type = request.headers.get('Content-Type')
-
-        if "Authorization" not in request.headers:
-            return {"error": "No authorization credentials provided"}
-
-        not_validated = self.check_auth()
-        if not_validated:
-            return not_validated
-
-        load_type = self.check_type()
-        if request.method in ["POST", "PUT", "PATCH"] and load_type is not None:
-            return load_type
-
-        # ---------------------------- POST ---------------------------------#
-        if request.method == 'POST':
-            return self.post_request()
-        # ---------------------------- GET ----------------------------------#
-        elif request.method == 'GET':
-            return self.get_request()
-        # ---------------------------- DELETE -------------------------------#
-        elif request.method == 'DELETE':
-            return self.delete_request()
-        # ---------------------------- PUT ----------------------------------#
-        elif request.method == 'PUT':
-            return self.put_request()
-        # ---------------------------- PATCH -------------------------------#
-        elif request.method == 'PATCH':
-            return self.patch_request()
 
 
 @app.route('/', methods=['POST', 'GET', 'DELETE', 'PUT', 'PATCH'])
