@@ -43,7 +43,7 @@ class Bot:
             return {"text": "which bot do you want to play sound? (id)", "next": 1}
         if step["id"] == 1:
             if int(step["answer"]) not in Bot.bots.keys():
-                return {"text": "Sorry there is no such bot, type anything to go back", "next": 0}
+                return {"text": "Sorry there is no such bot", "next": 0}
             elif "play_sound" not in Bot.bots[int(step["answer"])]["intents"]:
                 return {"text": "Sorry this cant play anything", "next": 0}
             else:
