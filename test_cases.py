@@ -36,29 +36,29 @@ payload3 = {"intents": ["play-sound", "tell-joke"]}
 
 # THIS FUNCTION IS SO COOL, feel like a primate now for writing test cases separately
 @pytest.mark.parametrize(
-    ('input_x', 'code', 'expected'),
+    ('input_x', 'expected'),
     (
-            pytest.param(first.get_request({"bot_id": first.bot_id}), 200, None, id="First get request"),
-            pytest.param(first.post_request(payload1), 200, {'id': first.bot_id, 'intents': [], 'name': 'test', 'url': 'http://example.com'},
+            pytest.param(first.get_request({"bot_id": first.bot_id}), None, id="First get request"),
+            pytest.param(first.post_request(payload1), {'id': first.bot_id, 'intents': [], 'name': 'test', 'url': 'http://example.com'},
                          id="First post request"),
-            pytest.param(first.patch_request(first.bot_id, payload2), 200, None, id="First patch request"),
-            pytest.param(first.put_request(first.bot_id, payload3), 200, None, id="First put request"),
-            pytest.param(first.delete_request(first.bot_id), 200, None, id="First delete request"),
-            pytest.param(second.get_request({"bot_id": first.bot_id}), 200, None, id="Second get request"),
-            pytest.param(second.post_request(payload1), 200, {'id': first.bot_id, 'intents': [], 'name': 'test', 'url': 'http://example.com'},
+            pytest.param(first.patch_request(first.bot_id, payload2), None, id="First patch request"),
+            pytest.param(first.put_request(first.bot_id, payload3), None, id="First put request"),
+            pytest.param(first.delete_request(first.bot_id), None, id="First delete request"),
+            pytest.param(second.get_request({"bot_id": first.bot_id}), None, id="Second get request"),
+            pytest.param(second.post_request(payload1), {'id': first.bot_id, 'intents': [], 'name': 'test', 'url': 'http://example.com'},
                          id="Second post request"),
-            pytest.param(second.patch_request(first.bot_id, payload2), 200, None, id="Second patch request"),
-            pytest.param(second.put_request(first.bot_id, payload3), 200, None, id="Second put request"),
-            pytest.param(second.delete_request(first.bot_id), 200, None, id="Second delete request"),
+            pytest.param(second.patch_request(first.bot_id, payload2), None, id="Second patch request"),
+            pytest.param(second.put_request(first.bot_id, payload3), None, id="Second put request"),
+            pytest.param(second.delete_request(first.bot_id), None, id="Second delete request"),
 
-            pytest.param(first.post_request("a"), 200, {'error': 'Content-Type not supported!'}, id="Post with invalid data"),
-            pytest.param(first.post_request(), 200, {'error': 'Content-Type not supported!'}, id="Post with no data"),
-            pytest.param(third.post_request(payload1), 200, {"error": "wrong token code"}, id="Post with wrong secret"),
-            pytest.param(fourth.post_request(payload1), 200, {"error": "wrong credentials"}, id="Post with wrong credentials"),
+            pytest.param(first.post_request("a"), {'error': 'Content-Type not supported!'}, id="Post with invalid data"),
+            pytest.param(first.post_request(), {'error': 'Content-Type not supported!'}, id="Post with no data"),
+            pytest.param(third.post_request(payload1), {"error": "wrong token code"}, id="Post with wrong secret"),
+            pytest.param(fourth.post_request(payload1), {"error": "wrong credentials"}, id="Post with wrong credentials"),
     )
 )
-def test_requests(input_x: dict, code, expected):
+def test_requests(input_x: dict, expected):
     result = input_x
     if expected:
         assert result["json"] == expected
-    assert result["status_code"] == code
+    assert result["status_code"] == 200

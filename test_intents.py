@@ -27,7 +27,7 @@ headers = {"Authorization": json.dumps({"token": "sup3rs3cr3t"})}
 first = API("http://127.0.0.1:5000/", headers)
 
 
-class TestIt:
+class TestJoke:
     @pytest.mark.parametrize(('intent', 'step', 'answer', 'expected'),
                              ((0, 0, 0, {'next': 5, 'text': 'What do you want bot to do? \n1)Tell a joke\n2)Play_sound\n3)DisconnecT'}),
                               (555, 0, 0, {'next': 555, 'text': 'wrong number dude'}),
@@ -40,6 +40,6 @@ class TestIt:
                               (1, 3, 'what', {'next': 3, 'text': "that's not what you are supposed to answer -_-, lets try again, its Nobel"}),
                               (1, 3, 'nobel who', {'next': 4, 'text': "Nobel...that's why I knocked"}),
                               ))
-    def test_tc1(self, tester, intent, answer, step, expected):
+    def test_tell_joke(self, tester, intent, answer, step, expected):
         request = first.get_request(tester.payload())
         assert request["json"] == expected
