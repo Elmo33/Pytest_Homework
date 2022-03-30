@@ -1,8 +1,5 @@
 # flatrock
 
-only with this task I discovered a lot of pytest functionalities
-that changes a lot about how I'll be using it, and only learned all of this in 2 days, so I need more real opportunities to learn the rest.
-
 ### Server 
 bot.py - class for bots
 
